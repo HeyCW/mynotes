@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "788889452290",
+    "project_id": "mynotes-ales",
+    "storage_bucket": "mynotes-ales.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788889452290:android:296b4bbf7ea4af89cccc1b",
+        "android_client_info": {
+          "package_name": "com.example.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsUkKG7B81MXGtscEys4T1JX8WPgx-RPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
