@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/route.dart';
 import 'package:mynotes/firebase_options.dart';
+import 'package:mynotes/services/auth/auth_exeception.dart';
+import 'package:mynotes/services/auth/auth_services.dart';
 import 'dart:developer' as devtools;
 
 import 'package:mynotes/utilities/showErrorDialog.dart';
@@ -61,35 +63,29 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredential =
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                final userCredential = await AuthService.firebase().logIn(
                   email: email,
                   password: password,
                 );
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.emailVerified ?? false) {
+                final user = AuthService.firebase().currentUser;
+                if (user?.isEmailVerified ?? false) {
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil(notesRoute, (route) => false);
                 } else {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                       verifyEmailRoute, (route) => false);
                 }
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'user-not-found') {
-                  await showErrorDialog(
-                      context, 'No user found for that email.');
-                  print('No user found for that email.');
-                } else if (e.code == 'wrong-password') {
-                  await showErrorDialog(
-                      context, 'Wrong password provided for that user.');
-                  print('Wrong password provided for that user.');
-                } else if (e.code == 'invalid-email') {
-                  await showErrorDialog(context, 'Invalid email');
-                } else {
-                  await showErrorDialog(context, "Error: ${e.code}");
-                }
-              } catch (e) {
-                await showErrorDialog(context, "Error: ${e}");
+              } on UserNotFoundAuth {
+                await showErrorDialog(context, 'No user found for that email.');
+                print('No user found for that email.');
+              } on WrongPasswordAuth {
+                await showErrorDialog(
+                    context, 'Wrong password provided for that user.');
+                print('Wrong password provided for that user.');
+              } on InvalidEmailAuth {
+                await showErrorDialog(context, 'Invalid email');
+              } on GenericAuth {
+                await showErrorDialog(context, "Auth Error");
               }
             },
             child: const Text('Login'),
