@@ -18,6 +18,7 @@ class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
+  @override
   void initState() {
     super.initState();
     _email = TextEditingController();
@@ -34,7 +35,7 @@ class _RegisterViewState extends State<RegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Register',
           style: TextStyle(color: Colors.white),
         ),
@@ -78,7 +79,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil(loginRoute, (route) => false);
               },
-              child: Text('Already registered? Login here'))
+              child: const Text('Already registered? Login here'))
         ],
       ),
     );
